@@ -284,10 +284,17 @@ LTSimulator通过模拟以下光学器件实现神经网络计算：
 - 最大误分类：9误分为4（18个样本），符合人类认知规律
 - 无明显系统性错误类别
 
-### 3.5 输出文件清单
+### 3.5 分类运行结果图
+
+下图为实验完整可视化结果，包含准确度/损失曲线、混淆矩阵、各类别准确度及光计算占比分析：
+
+![MNIST分类运行结果图](results/classification_result.png)
+
+### 3.6 输出文件清单
 
 | 文件 | 内容 | 格式 |
 |------|------|------|
+| `results/classification_result.png` | 分类运行结果可视化图（本节上图） | PNG |
 | `results/classification_results.json` | 完整实验结果、指标、混淆矩阵 | JSON |
 | `results/predictions.csv` | 每个测试样本的预测标签及各类别概率 | CSV |
 | `results/training_history.json` | 每轮训练/测试损失与准确度 | JSON |
@@ -421,6 +428,7 @@ MZI网格通过Clements分解实现任意酉矩阵 `U`：
 shitou02/
 ├── mnist_ltsimulator.py              # LTSimulator平台MNIST分类实现（完整PyTorch代码）
 ├── results/
+│   ├── classification_result.png    # 分类运行结果可视化图（准确度曲线/混淆矩阵/光计算占比）
 │   ├── classification_results.json  # 完整分类结果（准确度、混淆矩阵、光计算分析）
 │   ├── predictions.csv              # 逐样本预测标签及各类别置信度
 │   └── training_history.json        # 逐轮训练与测试指标
