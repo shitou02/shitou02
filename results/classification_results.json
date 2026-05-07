@@ -36,8 +36,8 @@
       {
         "name": "optical_conv1",
         "type": "Conv2d(optical)",
-        "in": "1×28×28",
-        "out": "32×28×28",
+        "in": "1\u00d728\u00d728",
+        "out": "32\u00d728\u00d728",
         "params": 288
       },
       {
@@ -53,8 +53,8 @@
       {
         "name": "optical_conv2",
         "type": "Conv2d(optical)",
-        "in": "32×28×28",
-        "out": "64×28×28",
+        "in": "32\u00d728\u00d728",
+        "out": "64\u00d728\u00d728",
         "params": 18432
       },
       {
@@ -70,7 +70,7 @@
       {
         "name": "maxpool",
         "type": "MaxPool2d(elec.)",
-        "kernel": "2×2"
+        "kernel": "2\u00d72"
       },
       {
         "name": "mzi_dense1",
@@ -171,14 +171,15 @@
       "batchnorm_layer2": 2048,
       "batchnorm_layer3": 512,
       "encoding_dac": 784,
-      "decoding_adc_argmax": 10
+      "decoding_adc_argmax": 10,
+      "batchnorm_full_stats_and_photodetector": 2375473
     },
     "total_optical_macs": 21165824,
-    "total_electronic_ops": 103706,
-    "total_operations": 21269530,
-    "optical_compute_ratio": 0.995124,
-    "optical_compute_percent": 99.51,
-    "description": "Optical MACs include all multiply-accumulate operations performed in photonic domain (convolutional filtering via SLM, MZI mesh matrix-vector products). Electronic ops include encoding/decoding, pooling, normalization, and control logic."
+    "total_electronic_ops": 2479179,
+    "total_operations": 23645003,
+    "optical_compute_ratio": 0.89515,
+    "optical_compute_percent": 89.51,
+    "description": "Optical MACs include all multiply-accumulate operations performed in photonic domain (convolutional filtering via SLM, MZI mesh matrix-vector products). Electronic ops include encoding/decoding, pooling, normalization, full batch-normalization statistics computation (mean/variance per channel), photodetector analog-digital conversion overhead, and control logic."
   },
   "confusion_matrix": {
     "matrix": [
