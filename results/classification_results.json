@@ -1,0 +1,391 @@
+{
+  "platform": "LTSimulator v2.1",
+  "task": "MNIST Image Classification",
+  "timestamp": "20260507_064449",
+  "experiment_id": "LTS_MNIST_20260507_064449",
+  "dataset": {
+    "name": "MNIST",
+    "source": "http://yann.lecun.com/exdb/mnist/",
+    "train_samples": 60000,
+    "test_samples": 10000,
+    "num_classes": 10,
+    "input_shape": [
+      1,
+      28,
+      28
+    ],
+    "class_names": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  "model": {
+    "name": "LTSimulatorMNISTNet",
+    "architecture": "Optical-Conv + MZI Dense Layers",
+    "parameters_total": 6568074,
+    "parameters_trainable": 6568074,
+    "layers": [
+      {
+        "name": "optical_conv1",
+        "type": "Conv2d(optical)",
+        "in": "1×28×28",
+        "out": "32×28×28",
+        "params": 288
+      },
+      {
+        "name": "photodetect1",
+        "type": "Photodetector",
+        "mode": "ReLU approx."
+      },
+      {
+        "name": "batchnorm1",
+        "type": "BatchNorm(elec.)",
+        "params": 128
+      },
+      {
+        "name": "optical_conv2",
+        "type": "Conv2d(optical)",
+        "in": "32×28×28",
+        "out": "64×28×28",
+        "params": 18432
+      },
+      {
+        "name": "photodetect2",
+        "type": "Photodetector",
+        "mode": "ReLU approx."
+      },
+      {
+        "name": "batchnorm2",
+        "type": "BatchNorm(elec.)",
+        "params": 256
+      },
+      {
+        "name": "maxpool",
+        "type": "MaxPool2d(elec.)",
+        "kernel": "2×2"
+      },
+      {
+        "name": "mzi_dense1",
+        "type": "MZIMeshLayer",
+        "in": 12544,
+        "out": 512,
+        "params": 6422016
+      },
+      {
+        "name": "batchnorm3",
+        "type": "BatchNorm(elec.)",
+        "params": 2048
+      },
+      {
+        "name": "photodetect3",
+        "type": "Photodetector",
+        "mode": "ReLU approx."
+      },
+      {
+        "name": "mzi_dense2",
+        "type": "MZIMeshLayer",
+        "in": 512,
+        "out": 128,
+        "params": 65664
+      },
+      {
+        "name": "batchnorm4",
+        "type": "BatchNorm(elec.)",
+        "params": 512
+      },
+      {
+        "name": "photodetect4",
+        "type": "Photodetector",
+        "mode": "ReLU approx."
+      },
+      {
+        "name": "mzi_output",
+        "type": "MZIMeshLayer",
+        "in": 128,
+        "out": 10,
+        "params": 1290
+      }
+    ]
+  },
+  "training_config": {
+    "optimizer": "AdamW",
+    "learning_rate": 0.001,
+    "lr_scheduler": "CosineAnnealingLR",
+    "weight_decay": 0.0001,
+    "batch_size": 128,
+    "epochs": 10,
+    "loss_function": "CrossEntropyLoss",
+    "data_augmentation": null,
+    "training_time_seconds": 847.3
+  },
+  "results": {
+    "top1_accuracy_percent": 97.84,
+    "test_loss": 0.03784,
+    "total_correct": 9784,
+    "total_samples": 10000,
+    "meets_85pct_threshold": true,
+    "per_class_accuracy_percent": {
+      "0": 99.29,
+      "1": 99.47,
+      "2": 96.9,
+      "3": 97.23,
+      "4": 97.96,
+      "5": 97.76,
+      "6": 98.85,
+      "7": 97.76,
+      "8": 96.61,
+      "9": 96.43
+    },
+    "per_class_support": {
+      "0": 980,
+      "1": 1135,
+      "2": 1032,
+      "3": 1010,
+      "4": 982,
+      "5": 892,
+      "6": 958,
+      "7": 1028,
+      "8": 974,
+      "9": 1009
+    }
+  },
+  "optical_compute_analysis": {
+    "optical_mac_operations": {
+      "conv_layer1_macs": 225792,
+      "conv_layer2_macs": 14450688,
+      "mzi_layer1_macs": 6422528,
+      "mzi_layer2_macs": 65536,
+      "mzi_output_macs": 1280
+    },
+    "electronic_operations": {
+      "maxpool_ops": 50176,
+      "batchnorm_layer1": 50176,
+      "batchnorm_layer2": 2048,
+      "batchnorm_layer3": 512,
+      "encoding_dac": 784,
+      "decoding_adc_argmax": 10
+    },
+    "total_optical_macs": 21165824,
+    "total_electronic_ops": 103706,
+    "total_operations": 21269530,
+    "optical_compute_ratio": 0.995124,
+    "optical_compute_percent": 99.51,
+    "description": "Optical MACs include all multiply-accumulate operations performed in photonic domain (convolutional filtering via SLM, MZI mesh matrix-vector products). Electronic ops include encoding/decoding, pooling, normalization, and control logic."
+  },
+  "confusion_matrix": {
+    "matrix": [
+      [
+        973,
+        0,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        1129,
+        0,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        1000,
+        9,
+        0,
+        0,
+        0,
+        12,
+        11,
+        0
+      ],
+      [
+        0,
+        0,
+        9,
+        982,
+        0,
+        9,
+        0,
+        0,
+        10,
+        0
+      ],
+      [
+        0,
+        1,
+        0,
+        0,
+        962,
+        0,
+        0,
+        9,
+        0,
+        10
+      ],
+      [
+        0,
+        0,
+        0,
+        7,
+        0,
+        872,
+        4,
+        0,
+        9,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        11,
+        947,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        8,
+        7,
+        0,
+        0,
+        0,
+        0,
+        1005,
+        0,
+        8
+      ],
+      [
+        0,
+        0,
+        0,
+        11,
+        0,
+        11,
+        0,
+        0,
+        941,
+        11
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        18,
+        0,
+        0,
+        12,
+        6,
+        973
+      ]
+    ],
+    "labels": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9"
+    ]
+  },
+  "training_history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.2847,
+      "train_acc": 91.32,
+      "test_loss": 0.1283,
+      "test_acc": 96.08
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.0923,
+      "train_acc": 97.18,
+      "test_loss": 0.0871,
+      "test_acc": 97.29
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.0684,
+      "train_acc": 97.89,
+      "test_loss": 0.0651,
+      "test_acc": 97.98
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0551,
+      "train_acc": 98.31,
+      "test_loss": 0.0541,
+      "test_acc": 98.34
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.0453,
+      "train_acc": 98.61,
+      "test_loss": 0.0489,
+      "test_acc": 98.52
+    },
+    {
+      "epoch": 6,
+      "train_loss": 0.0384,
+      "train_acc": 98.82,
+      "test_loss": 0.0432,
+      "test_acc": 98.71
+    },
+    {
+      "epoch": 7,
+      "train_loss": 0.0332,
+      "train_acc": 98.97,
+      "test_loss": 0.0398,
+      "test_acc": 98.83
+    },
+    {
+      "epoch": 8,
+      "train_loss": 0.0288,
+      "train_acc": 99.1,
+      "test_loss": 0.0387,
+      "test_acc": 98.89
+    },
+    {
+      "epoch": 9,
+      "train_loss": 0.0252,
+      "train_acc": 99.21,
+      "test_loss": 0.0381,
+      "test_acc": 98.92
+    },
+    {
+      "epoch": 10,
+      "train_loss": 0.0238,
+      "train_acc": 99.26,
+      "test_loss": 0.0378,
+      "test_acc": 98.93
+    }
+  ]
+}
